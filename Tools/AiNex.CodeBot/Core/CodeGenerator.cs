@@ -295,4 +295,43 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+
+    public async Task<string> GenerateHardeningAsync(string projectStructure)
+{
+    var prompt = $@"
+You are improving a production-ready .NET ERP system.
+
+Goal:
+Harden and stabilize the MVP without breaking existing modules.
+
+Add:
+
+- Global exception middleware
+- Standard API response wrapper
+- DTO validation (FluentValidation style allowed)
+- Structured logging
+- Soft delete base (IsDeleted optional)
+- Basic audit fields (CreatedAt, UpdatedAt)
+- Pagination support for list endpoints
+- Demo seed data (Customers, Products)
+- Safe defaults and null protection
+
+Rules:
+- Do not break existing endpoints
+- Keep Clean Architecture
+- Async/await
+- Register everything in DI
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
