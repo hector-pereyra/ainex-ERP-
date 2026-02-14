@@ -47,7 +47,16 @@ Console.WriteLine("Generating Repositories...");
     var repoCode = await generator.GenerateRepositoriesAsync(structure);
     writer.WriteFiles(config.ProjectRoot, repoCode);
 }
-// 4. AutoFix Loop (semi-autónomo)
+// 4. Generar módulo Auth + JWT
+Console.WriteLine("Generating Auth module...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var authCode = await generator.GenerateAuthModuleAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, authCode);
+}
+
+// N. AutoFix Loop (semi-autónomo)
 var loop = new AutoFixLoop(
     builder,
     analyzer,
