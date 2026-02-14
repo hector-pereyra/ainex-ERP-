@@ -39,7 +39,15 @@ Console.WriteLine("Generating DbContext...");
     var dbCode = await generator.GenerateDbContextAsync(structure);
     writer.WriteFiles(config.ProjectRoot, dbCode);
 }
-// 3. AutoFix Loop (semi-autónomo)
+// 3. Generar Repositories + UnitOfWork
+Console.WriteLine("Generating Repositories...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var repoCode = await generator.GenerateRepositoriesAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, repoCode);
+}
+// 4. AutoFix Loop (semi-autónomo)
 var loop = new AutoFixLoop(
     builder,
     analyzer,
