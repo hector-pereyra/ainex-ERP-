@@ -94,4 +94,13 @@ Console.WriteLine("Generating Products & Inventory module...");
     var prodCode = await generator.GenerateProductsInventoryModuleAsync(structure);
     writer.WriteFiles(config.ProjectRoot, prodCode);
 }
+
+// 8. Generar módulo Ventas / Facturación
+Console.WriteLine("Generating Sales module...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var salesCode = await generator.GenerateSalesModuleAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, salesCode);
+}
 Console.WriteLine("CodeBot finished.");
