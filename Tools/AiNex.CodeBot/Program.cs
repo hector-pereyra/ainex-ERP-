@@ -77,4 +77,12 @@ var infraProject = Path.Combine(config.ProjectRoot, "backend", "Ainex.Infrastruc
 Console.WriteLine(migrations.AddMigration(infraProject));
 Console.WriteLine(migrations.UpdateDatabase(infraProject));
 
+// 6. Generar módulo Clientes
+Console.WriteLine("Generating Customers module...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var customersCode = await generator.GenerateCustomersModuleAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, customersCode);
+}
 Console.WriteLine("CodeBot finished.");
