@@ -4,6 +4,8 @@ using Ainex.CodeBot.Core;
 
 var config = new BotConfig();
 
+DotNetEnv.Env.Load();
+
 var scanner = new ProjectScanner();
 var generator = new CodeGenerator(config.ApiKey);
 var writer = new FileWriter();
