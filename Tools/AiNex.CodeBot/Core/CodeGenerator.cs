@@ -158,4 +158,49 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+
+    public async Task<string> GenerateCustomersModuleAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET ERP module.
+
+Task:
+Create Customers module using Clean Architecture.
+
+Requirements:
+
+Domain:
+- Entity: Customer (Id, Name, Email, Phone, Address, CreatedAt)
+
+Infrastructure:
+- EF Core configuration
+- Use existing Repository<T> and UnitOfWork
+
+API:
+- CustomersController
+- Endpoints:
+  GET /customers
+  GET /customers/{{id}}
+  POST /customers
+  PUT /customers/{{id}}
+  DELETE /customers/{{id}}
+
+Rules:
+- Use async/await
+- Protect with [Authorize]
+- Use DTOs if needed
+- Register services in DI
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
