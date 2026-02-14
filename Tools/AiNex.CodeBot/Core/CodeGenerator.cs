@@ -36,4 +36,30 @@ Return ONLY code files separated exactly like:
         var response = await _chat.CompleteChatAsync(prompt);
         return response.Content[0].Text;
     }
+
+public async Task<string> FixBuildErrorsAsync(string errors, string projectStructure)
+{
+    var prompt = $@"
+You are fixing a .NET build.
+
+Goal:
+Fix compilation errors in the Infrastructure layer.
+
+Rules:
+- Return ONLY corrected code files
+- Same format:
+
+===FILE: filename.cs===
+<code>
+
+Build errors:
+{errors}
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
