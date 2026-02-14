@@ -62,4 +62,33 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+
+    public async Task<string> GenerateDbContextAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET code.
+
+Task:
+Create DbContext and database configuration for Infrastructure layer using:
+
+- EF Core
+- PostgreSQL
+- Clean Architecture
+- DbContext named AinexDbContext
+- OnModelCreating configured
+- Basic entity placeholders allowed
+- Dependency Injection extension
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
