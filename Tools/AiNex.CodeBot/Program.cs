@@ -103,4 +103,13 @@ Console.WriteLine("Generating Sales module...");
     var salesCode = await generator.GenerateSalesModuleAsync(structure);
     writer.WriteFiles(config.ProjectRoot, salesCode);
 }
+
+// 9. Hardening MVP
+Console.WriteLine("Applying MVP Hardening...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var hardeningCode = await generator.GenerateHardeningAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, hardeningCode);
+}
 Console.WriteLine("CodeBot finished.");
