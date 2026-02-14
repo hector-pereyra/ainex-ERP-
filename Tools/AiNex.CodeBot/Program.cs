@@ -13,6 +13,15 @@ var analyzer = new ErrorAnalyzer();
 Console.WriteLine("Ainex CodeBot starting...");
 
 // 1. Generar Infrastructure si no existe
+/*if (!scanner.InfrastructureExists(config.ProjectRoot))
+{
+    Console.WriteLine("Infrastructure missing → generating...");
+
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var code = await generator.GenerateInfrastructureAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, code);
+}*/
+// 1. Generar Infrastructure si no existe
 if (!scanner.InfrastructureExists(config.ProjectRoot))
 {
     Console.WriteLine("Infrastructure missing → generating...");
@@ -22,7 +31,15 @@ if (!scanner.InfrastructureExists(config.ProjectRoot))
     writer.WriteFiles(config.ProjectRoot, code);
 }
 
-// 2. AutoFix Loop (semi-autónomo)
+// 2. Generar DbContext + DB config
+Console.WriteLine("Generating DbContext...");
+
+{
+    var structure = scanner.GetStructure(config.ProjectRoot);
+    var dbCode = await generator.GenerateDbContextAsync(structure);
+    writer.WriteFiles(config.ProjectRoot, dbCode);
+}
+// 3. AutoFix Loop (semi-autónomo)
 var loop = new AutoFixLoop(
     builder,
     analyzer,
