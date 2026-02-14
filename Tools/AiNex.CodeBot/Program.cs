@@ -9,6 +9,7 @@ var generator = new CodeGenerator(config.ApiKey);
 var writer = new FileWriter();
 var builder = new BuildRunner();
 var analyzer = new ErrorAnalyzer();
+var migrations = new MigrationRunner();
 
 Console.WriteLine("Ainex CodeBot starting...");
 
@@ -67,5 +68,13 @@ var loop = new AutoFixLoop(
     config.SolutionFile);
 
 await loop.RunAsync();
+
+// 5. Ejecutar migraciones EF
+Console.WriteLine("Running EF migrations...");
+
+var infraProject = Path.Combine(config.ProjectRoot, "backend", "Ainex.Infrastructure", "Ainex.Infrastructure.csproj");
+
+Console.WriteLine(migrations.AddMigration(infraProject));
+Console.WriteLine(migrations.UpdateDatabase(infraProject));
 
 Console.WriteLine("CodeBot finished.");
