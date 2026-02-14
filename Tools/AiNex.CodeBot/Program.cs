@@ -3,29 +3,35 @@ using Ainex.CodeBot.Config;
 using Ainex.CodeBot.Core;
 
 var config = new BotConfig();
+
 var scanner = new ProjectScanner();
 var generator = new CodeGenerator(config.ApiKey);
 var writer = new FileWriter();
 var builder = new BuildRunner();
+var analyzer = new ErrorAnalyzer();
 
 Console.WriteLine("Ainex CodeBot starting...");
 
-// 1. Scan
+// 1. Generar Infrastructure si no existe
 if (!scanner.InfrastructureExists(config.ProjectRoot))
 {
     Console.WriteLine("Infrastructure missing → generating...");
 
     var structure = scanner.GetStructure(config.ProjectRoot);
-
-    // 2. Generate
     var code = await generator.GenerateInfrastructureAsync(structure);
-
-    // 3. Write
     writer.WriteFiles(config.ProjectRoot, code);
 }
 
-// 4. Build
-var result = builder.Run(config.SolutionFile);
+// 2. AutoFix Loop (semi-autónomo)
+var loop = new AutoFixLoop(
+    builder,
+    analyzer,
+    generator,
+    writer,
+    scanner,
+    config.ProjectRoot,
+    config.SolutionFile);
 
-Console.WriteLine(result);
-Console.WriteLine("Done.");
+await loop.RunAsync();
+
+Console.WriteLine("CodeBot finished.");
