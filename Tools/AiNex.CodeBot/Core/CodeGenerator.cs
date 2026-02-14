@@ -91,4 +91,38 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+    public async Task<string> GenerateRepositoriesAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET code.
+
+Task:
+Create repository pattern for Infrastructure layer using:
+
+- Clean Architecture
+- EF Core
+- Generic Repository
+- UnitOfWork
+- Async methods
+- Dependency Injection
+
+Requirements:
+- Interface: IRepository<T>
+- Implementation: Repository<T>
+- IUnitOfWork
+- UnitOfWork using AinexDbContext
+- AddInfrastructure extension must register repositories
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
