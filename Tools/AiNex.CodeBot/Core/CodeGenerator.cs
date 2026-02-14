@@ -125,4 +125,37 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+    public async Task<string> GenerateAuthModuleAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET code.
+
+Task:
+Create Users + Authentication module with JWT using Clean Architecture.
+
+Requirements:
+
+- Entity: User (Id, Email, PasswordHash, IsActive, CreatedAt)
+- Basic Role support
+- Password hashing (BCrypt or similar)
+- JWT Token generator
+- Login endpoint: /auth/login
+- Register endpoint: /auth/register
+- ASP.NET Core Authentication with JWT Bearer
+- Middleware configured
+- Seed admin user
+- DI configuration included
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
