@@ -8,5 +8,8 @@ public class BotConfig
     public string SolutionFile => Path.Combine(ProjectRoot, "ainex.sln");
 
     // IMPORTANTE: luego lo moveremos a variable de entorno
-    public string ApiKey { get; set; } = "OPENAI_API_KEY";
+    //public string ApiKey { get; set; } = "OPENAI_API_KEY";
+public string ApiKey =>
+    Environment.GetEnvironmentVariable("OPENAI_API_KEY")
+    ?? throw new Exception("OPENAI_API_KEY not set");
 }
