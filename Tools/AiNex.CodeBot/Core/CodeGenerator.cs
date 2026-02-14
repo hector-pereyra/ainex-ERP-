@@ -203,4 +203,53 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+
+    public async Task<string> GenerateProductsInventoryModuleAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET ERP module.
+
+Task:
+Create Products + Inventory module using Clean Architecture.
+
+Domain:
+- Entity Product (Id, Name, SKU, Price, IsActive, CreatedAt)
+- Entity Inventory (Id, ProductId, Quantity)
+- Entity InventoryTransaction (Id, ProductId, Quantity, Type, CreatedAt)
+
+Infrastructure:
+- EF Core configurations
+- Use Repository<T> and UnitOfWork
+
+API:
+- ProductsController
+  GET /products
+  GET /products/{{id}}
+  POST /products
+  PUT /products/{{id}}
+  DELETE /products/{{id}}
+
+- Inventory endpoints:
+  GET /inventory
+  POST /inventory/adjust
+
+Rules:
+- Async/await
+- Protect with [Authorize]
+- DTOs allowed
+- Update stock on adjustments
+- Register services in DI
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
