@@ -252,4 +252,47 @@ Project structure:
     var response = await _chat.CompleteChatAsync(prompt);
     return response.Content[0].Text;
     }
+
+    public async Task<string> GenerateSalesModuleAsync(string projectStructure)
+{
+    var prompt = $@"
+You are generating production-ready .NET ERP module.
+
+Task:
+Create Sales / Invoicing module using Clean Architecture.
+
+Domain:
+- Entity Sale (Id, CustomerId, Total, CreatedAt)
+- Entity SaleItem (Id, SaleId, ProductId, Quantity, UnitPrice, Total)
+
+Rules:
+- On sale creation, decrease inventory
+- Use Repository<T> and UnitOfWork
+- Async/await
+- Protected with [Authorize]
+
+API:
+- SalesController
+  POST /sales (create sale with items)
+  GET /sales
+  GET /sales/{{id}}
+
+Requirements:
+- Transactional integrity
+- DTOs allowed
+- Integrate with Customer + Product + Inventory
+- Register services in DI
+
+Return ONLY code files in this format:
+
+===FILE: filename.cs===
+<code>
+
+Project structure:
+{projectStructure}
+";
+
+    var response = await _chat.CompleteChatAsync(prompt);
+    return response.Content[0].Text;
+    }
 }
